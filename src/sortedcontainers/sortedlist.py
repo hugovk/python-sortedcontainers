@@ -668,7 +668,7 @@ class SortedList(MutableSequence):
 
         head = iter(row0)
         tail = iter(head)
-        row1 = list(starmap(add, zip(head, tail)))
+        row1 = list(starmap(add, zip(head, tail, strict=False)))
 
         if len(row0) & 1:
             row1.append(row0[-1])
@@ -685,7 +685,7 @@ class SortedList(MutableSequence):
         while len(tree[-1]) > 1:
             head = iter(tree[-1])
             tail = iter(head)
-            row = list(starmap(add, zip(head, tail)))
+            row = list(starmap(add, zip(head, tail, strict=False)))
             tree.append(row)
 
         reduce(iadd, reversed(tree), self._index)
@@ -1466,7 +1466,7 @@ class SortedList(MutableSequence):
                 if seq_op is ne:
                     return True
 
-            for alpha, beta in zip(self, other):
+            for alpha, beta in zip(self, other, strict=False):
                 if alpha != beta:
                     return seq_op(alpha, beta)
 
@@ -2467,9 +2467,9 @@ class SortedKeyList(SortedList):
 
             # Check _keys matches _key mapped to _lists.
 
-            for val_sublist, key_sublist in zip(self._lists, self._keys):
+            for val_sublist, key_sublist in zip(self._lists, self._keys, strict=False):
                 assert len(val_sublist) == len(key_sublist)
-                for val, key in zip(val_sublist, key_sublist):
+                for val, key in zip(val_sublist, key_sublist, strict=False):
                     assert self._key(val) == key
 
             # Check _maxes index is the last value of each sublist.
